@@ -1,11 +1,17 @@
-name: The name of your workflow
-on [push]
+name: Slack Issues
+
+on:
+  issues:
+    types: [opened]
+
 
 jobs:
-  deploy:
+  post_slack_message:
     runs-on: ubuntu-latest
     steps:
-      - uses: craftech-io/slack-action@v1
-        with:
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
+    - uses: actions/checkout@v2
+    - uses: rtCamp/action-slack-notify@v2.0.0
+    env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: CyberJeff 
+        SLACK_CHANNEL: gh-issues
